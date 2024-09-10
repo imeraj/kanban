@@ -7,8 +7,6 @@
 # Visit https://pragprog.com/titles/beamops for more book information.
 # ---
 defmodule KanbanWeb do
-  @unused_attrs ""
-
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, components, channels, and so on.
