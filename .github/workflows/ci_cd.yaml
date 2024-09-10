@@ -16,7 +16,7 @@ jobs:
         uses: erlef/setup-beam@v1.17.3
         with:
           version-file: .tool-versions
-          verstion-type: strict
+          version-type: strict
 
       - name: Get dependencies
         run: mix deps.get
