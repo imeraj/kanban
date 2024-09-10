@@ -36,4 +36,4 @@ jobs:
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: mix deps.get
 
-      - run: mix compile
+      - run: mix compile --warnings-as-errors
