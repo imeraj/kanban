@@ -1,11 +1,11 @@
-#---
+# ---
 # Excerpted from "Engineering Elixir Applications",
 # published by The Pragmatic Bookshelf.
 # Copyrights apply to this code. It may not be used to create training material,
 # courses, books, articles, and the like. Contact us if you are in doubt.
 # We make no guarantees that this code is fit for any purpose.
 # Visit https://pragprog.com/titles/beamops for more book information.
-#---
+# ---
 import Config
 
 # We don't run a server during test. If one is required,
@@ -16,8 +16,7 @@ config :kanban, KanbanWeb.Endpoint,
   server: false
 
 # In test we don't send emails.
-config :kanban, Kanban.Mailer,
-  adapter: Swoosh.Adapters.Test
+config :kanban, Kanban.Mailer, adapter: Swoosh.Adapters.Test
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
