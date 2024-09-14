@@ -1,11 +1,11 @@
-ARG ELIXIR_VERSION=1.16.0
-ARG OTP_VERSION=26.2.1
-ARG DEB_VSN=bullseye-20231009-slim
+ARG ELIXIR_VERSION=1.14.4
+ARG OTP_VERSION=25.3
+ARG DEBIAN_VERSION=bullseye-20230227-slim
 
-ARG BUILDER_IMG="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEB_VSN}"
-ARG RUNNER_IMG="debian:${DEB_VSN}"
+ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}"
+ARG RUNNER_IMAGE="debian:${DEBIAN_VERSION}"
 
-FROM ${BUILDER_IMG} AS builder
+FROM ${BUILDER_IMAGE} AS builder
 
 # install build dependencies
 RUN apt-get update -y && apt-get install -y build-essential git \
@@ -52,7 +52,7 @@ RUN mix release
 
 # start a new build stage so that the final image will only contain
 # the compiled release and other runtime necessities
-FROM ${RUNNER_IMG}
+FROM ${RUNNER_IMAGE}
 
 RUN apt-get update -y && apt-get install -y libstdc++6 \
     openssl \
