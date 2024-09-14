@@ -1,8 +1,8 @@
-ARG EX_VSN=1.16.0
-ARG OTP_VSN=26.2.1
+ARG ELIXIR_VERSION=1.16.0
+ARG OTP_VERSION=26.2.1
 ARG DEB_VSN=bullseye-20231009-slim
 
-ARG BUILDER_IMG="hexpm/elixir:${EX_VSN}-erlang-${OTP_VSN}-debian-${DEB_VSN}"
+ARG BUILDER_IMG="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEB_VSN}"
 ARG RUNNER_IMG="debian:${DEB_VSN}"
 
 FROM ${BUILDER_IMG} AS builder
@@ -55,10 +55,10 @@ RUN mix release
 FROM ${RUNNER_IMG}
 
 RUN apt-get update -y && apt-get install -y libstdc++6 \
-                                            openssl \
-                                            libncurses5 \
-                                            locales \
-  && apt-get clean && rm -f /var/lib/apt/lists/*_*
+    openssl \
+    libncurses5 \
+    locales \
+    && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
 # Set the locale
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
@@ -75,7 +75,7 @@ ENV MIX_ENV="prod"
 
 # Only copy the final release from the build stage
 COPY --from=builder \
-     --chown=nobody:root /app/_build/${MIX_ENV}/rel/kanban ./
+    --chown=nobody:root /app/_build/${MIX_ENV}/rel/kanban ./
 
 USER nobody
 
