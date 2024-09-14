@@ -63,7 +63,6 @@ jobs:
       - name: Run tests
         run: mix test --max-failures 1 --trace --warnings-as-errors
 
-jobs:
   build-push:
     runs-on: ubuntu-latest
     needs: ci
@@ -82,12 +81,12 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-            images: |
-              ghcr.io/imeraj/kanban
-            tags: |
-              type=raw,value=latest,enable={{is_default_branch}}
-              type=ref,event=pr
-              type=sha,format=short
+          images: |
+            ghcr.io/imeraj/kanban
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=ref,event=pr
+            type=sha,format=short
 
       - name: Parse versions from .tool-versions
         id: parse-asdf
@@ -95,10 +94,10 @@ jobs:
 
       - uses: docker/build-push-action@v5
         with:
-            context: .
-            tags: ${{ steps.meta.outputs.tags }}
-            labels: ${{ steps.meta.outputs.labels }}
-            push: true
-            build-args: |
-              ELIXIR_VERSION=${{ env.ELIXIR_VERSION }}
-              OTP_VERSION=${{ env.ERLANG_VERSION }}
+          context: .
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          push: true
+          build-args: |
+            ELIXIR_VERSION=${{ env.ELIXIR_VERSION }}
+            OTP_VERSION=${{ env.ERLANG_VERSION }}
