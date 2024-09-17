@@ -94,13 +94,17 @@ jobs:
 
       - uses: docker/setup-buildx-action@v3
 
+      - name: Set up QEMU
+      - uses: docker/setup-qemu-action@v3
+
       - uses: docker/build-push-action@v5
         with:
           context: .
-          cache-from: type=registry,ref=ghcr.io/beamops/kanban:cache
-          cache-to: type=registry,ref=ghcr.io/beamops/kanban:cache,mode=max
+          cache-from: type=registry,ref=ghcr.io/imeraj/kanban:cache
+          cache-to: type=registry,ref=ghcr.io/imeraj/kanban:cache,mode=max
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64
           push: true
           build-args: |
             ELIXIR_VERSION=${{ env.ELIXIR_VERSION }}
