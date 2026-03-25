@@ -43,3 +43,6 @@ jobs:
 
       - name: Check code is formatted
         run: mix format --check-formatted
+
+      - name: Dialyzer static analysis
+        run: mix dialyzer --format github
