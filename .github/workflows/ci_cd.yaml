@@ -95,12 +95,16 @@ jobs:
         id: parse-asdf
         run: ./scripts/versions.sh
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
       - uses: docker/build-push-action@v5
         with:
           context: .
           cache-from: type=registry,ref=ghcr.io/imeraj/kanban:cache
           cache-to: type=registry,ref=ghcr.io/imeraj/kanban:cache,mode=max
           tags: ${{ steps.meta.outputs.tags }}
+          platforms: linux/amd64, linux/arm64
           labels: ${{ steps.meta.outputs.labels }}
           push: true
           build-args: |
