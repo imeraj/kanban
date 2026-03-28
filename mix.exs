@@ -17,7 +17,6 @@ defmodule Kanban.MixProject do
         plt_file: {:no_warn, "priv/plts/project.plt"},
         plt_add_apps: [:ex_unit]
       ]
-
     ]
   end
 
@@ -73,7 +72,6 @@ defmodule Kanban.MixProject do
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}
-
     ]
   end
 
