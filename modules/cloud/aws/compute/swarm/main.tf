@@ -48,8 +48,19 @@ resource "aws_key_pair" "deployer_key" {
   public_key = tls_private_key.rsa.public_key_openssh
 }
 
+data "aws_ami" "amazon_linux_docker" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["amazon-linux-docker*"]
+  }
+
+  owners = ["430689517988"]
+}
+
 resource "aws_instance" "my_swarm" {
-  ami               = "ami-0f373f45fcf743d30"
+  ami               = data.aws_ami.amazon_linux_docker.id
   availability_zone = "ca-central-1b"
   instance_type     = "t3.micro"
   key_name          = aws_key_pair.deployer_key.key_name
@@ -60,16 +71,6 @@ resource "aws_instance" "my_swarm" {
   vpc_security_group_ids = [
     aws_security_group.swarm_sg.id
   ]
-  user_data = <<-EOF
-            #!/usr/bin/env bash
-
-            sudo dnf update -y && \
-            sudo dnf install -y docker && \
-            sudo systemctl start docker && \
-            sudo systemctl enable docker && \
-            sudo usermod -a -G docker ec2-user && \
-            newgrp docker
-            EOF
 }
 
 resource "aws_security_group" "swarm_sg" {
