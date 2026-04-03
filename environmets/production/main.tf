@@ -17,6 +17,12 @@ module "swarm" {
 #   id = "sg-0844606df17c97bdd"
 # }
 
+# IP=$(aws ec2 describe-instances \
+# --filters "Name=tag:Name,Values=docker-swarm-manager" \
+#   "Name=instance-state-name,Values=running" \
+#   --query "Reservations[0].Instances[0].PublicIpAddress"\
+#   --region ca-central-1 --output text)
+
 output "swarm_ssh_command" {
   value = module.swarm.ssh_command
 }
