@@ -44,3 +44,4 @@ environmets/production/.terraform
 .databaseurl
 .postgrespassword
 .secretkeybase
+key.txt
