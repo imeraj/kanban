@@ -41,3 +41,7 @@ terraform-provider-aws_v5.13.1_x5
 private_key.pem
 terraform.tfstate.backup
 environmets/production/.terraform
+.databaseurl
+.postgrespassword
+.secretkeybase
+key.txt
