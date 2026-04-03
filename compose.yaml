@@ -10,13 +10,15 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgrespassword
       POSTGRES_DB: kanban_dev
       PGDATA: /var/lib/postgresql/data
     ports:
       - ${POSTGRES_PORT:-5432}:5432
     volumes:
       - db_data:/var/lib/postgresql/data
+    secrets:
+      - postgrespassword
 
   web:
     image: ${WEB_IMAGE:-ghcr.io/imeraj/kanban:latest}
@@ -27,8 +29,8 @@ services:
         max_attempts: 3
         window: 120s
     environment:
-      DATABASE_URL: ecto://postgres:postgres@db/postgres
-      SECRET_KEY_BASE: 2Twl1sjHFBcUbgy+xVAB1tfmT/zGDK+FDw9qjPpKwqFPkOXMzTvJ72jNIXLFSykE
+      DATABASE_URL_FILE: /run/secrets/databaseurl
+      SECRET_KEY_BASE_FILE: /run/secrets/secretkeybase
       PHX_HOST: "localhost"
     ports:
       - 4000:4000
@@ -36,6 +38,17 @@ services:
       - db
     command: >
       bash -c "bin/migrate && bin/server"
+    secrets:
+      - databaseurl
+      - secretkeybase
 
 volumes:
   db_data:
+
+secrets:
+  postgrespassword:
+    file: ./secrets/.postgrespassword
+  secretkeybase:
+    file: ./secrets/.secretkeybase
+  databaseurl:
+    file: ./secrets/.databaseurl
