@@ -18,6 +18,15 @@ module "repository_secrets" {
   github_owner = "imeraj"
 }
 
+# module "contributing_workflow" {
+#   source       = "../../modules/integrations/github/contributing_workflow"
+#   repository   = "kanban"
+#   github_owner = "imeraj"
+#   status_checks = [
+#     "Compile with mix test, format, dialyzer & unused deps check"
+#   ]
+# }
+
 # commented out import blocks so that we don't try to re-import
 
 # import {
