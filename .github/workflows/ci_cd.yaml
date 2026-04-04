@@ -12,7 +12,7 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-22.04
-    name: Compile
+    name: Compile with mix test, format, dialyzer & unused deps check
     env:
       MIX_ENV: test
     services:
