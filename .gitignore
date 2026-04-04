@@ -39,8 +39,10 @@ modules.json
 terraform-provider-aws_v5.13.1_x5
 
 private_key.pem
+terraform.tfstate
 terraform.tfstate.backup
-environmets/production/.terraform
+environments/production/.terraform
+environments/production/terraform.tfstate
 .databaseurl
 .postgrespassword
 .secretkeybase
