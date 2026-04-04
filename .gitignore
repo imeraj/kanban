@@ -45,3 +45,4 @@ environmets/production/.terraform
 .postgrespassword
 .secretkeybase
 key.txt
+.auto.tfvars
