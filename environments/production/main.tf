@@ -30,7 +30,7 @@ module "repository_secrets" {
 # commented out import blocks so that we don't try to re-import
 
 # import {
-#   to = module.swarm.aws_instance.my_swarm
+#   to = module.swarm.aws_instance.swarm_node
 #   id = "i-0040ff555d3c957f9"
 # }
 
@@ -45,6 +45,6 @@ module "repository_secrets" {
 #   --query "Reservations[0].Instances[0].PublicIpAddress"\
 #   --region ca-central-1 --output text)
 
-output "swarm_ssh_command" {
-  value = module.swarm.ssh_command
+output "swarm_ssh_commands" {
+  value = module.swarm.ssh_commands
 }

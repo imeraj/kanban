@@ -59,12 +59,14 @@ data "aws_ami" "amazon_linux_docker" {
   owners = ["430689517988"]
 }
 
-resource "aws_instance" "my_swarm" {
-  ami               = data.aws_ami.amazon_linux_docker.id
-  availability_zone = "ca-central-1b"
-  instance_type     = "t3.micro"
-  key_name          = aws_key_pair.deployer_key.key_name
-  subnet_id         = data.aws_subnets.main_subnets.ids[0]
+resource "aws_instance" "swarm_node" {
+  ami           = data.aws_ami.amazon_linux_docker.id
+  count         = var.number_of_nodes
+  instance_type = "t3.micro"
+  key_name      = aws_key_pair.deployer_key.key_name
+  subnet_id = data.aws_subnets.main_subnets.ids[
+    count.index % length(data.aws_subnets.main_subnets.ids)
+  ]
   tags = {
     "Name" = "docker-swarm-manager"
   }
