@@ -73,7 +73,8 @@ resource "aws_instance" "swarm_node" {
   vpc_security_group_ids = [
     aws_security_group.swarm_sg.id
   ]
-  user_data = <<-EOF
+  iam_instance_profile = aws_iam_instance_profile.main_profile.name
+  user_data            = <<-EOF
               #!/usr/bin/env bash
 
               docker swarm init
