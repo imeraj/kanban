@@ -40,6 +40,11 @@ module "repository_secrets" {
 #   id = "sg-0844606df17c97bdd"
 # }
 
+# import {
+#   to = module.swarm.aws_ssm_parameter.swarm_token
+#   id = "/docker/swarm_manager_token"
+# }
+
 # IP=$(aws ec2 describe-instances \
 # --filters "Name=tag:Name,Values=docker-swarm-manager" \
 #   "Name=instance-state-name,Values=running" \

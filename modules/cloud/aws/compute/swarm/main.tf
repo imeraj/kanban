@@ -17,6 +17,15 @@ terraform {
   }
 }
 
+locals {
+  init_script = file("${path.module}/scripts/initialize.sh")
+  manager_tag = "docker-swarm-manager"
+  join_script = templatefile("${path.module}/scripts/join.sh", {
+    manager_tag = local.manager_tag,
+    region      = var.region
+  })
+}
+
 data "aws_vpc" "main" {
   filter {
     name   = "isDefault"
@@ -59,6 +68,16 @@ data "aws_ami" "amazon_linux_docker" {
   owners = ["430689517988"]
 }
 
+resource "aws_ssm_parameter" "swarm_token" {
+  name        = "/docker/swarm_manager_token"
+  description = "The swarm manager join token"
+  type        = "SecureString"
+  value       = "NONE"
+  lifecycle {
+    ignore_changes = [value]
+  }
+}
+
 resource "aws_instance" "swarm_node" {
   ami           = data.aws_ami.amazon_linux_docker.id
   count         = var.number_of_nodes
@@ -68,79 +87,16 @@ resource "aws_instance" "swarm_node" {
     count.index % length(data.aws_subnets.main_subnets.ids)
   ]
   tags = {
-    "Name" = "docker-swarm-manager"
+    Name = local.manager_tag
   }
   vpc_security_group_ids = [
     aws_security_group.swarm_sg.id
   ]
   iam_instance_profile = aws_iam_instance_profile.main_profile.name
-  user_data            = <<-EOF
-              #!/usr/bin/env bash
+  user_data            = count.index == 0 ? local.init_script : local.join_script
 
-              docker swarm init
-              EOF
-}
-
-resource "aws_security_group" "swarm_sg" {
-  description = "launch-wizard-1 created 2026-03-29T12:11:49.051Z"
-  egress = [
-    {
-      cidr_blocks = [
-        "0.0.0.0/0",
-      ]
-      description      = ""
-      from_port        = 0
-      ipv6_cidr_blocks = []
-      prefix_list_ids  = []
-      protocol         = "-1"
-      security_groups  = []
-      self             = false
-      to_port          = 0
-    },
-  ]
-  ingress = [
-    {
-      cidr_blocks = [
-        "0.0.0.0/0",
-      ]
-      description      = ""
-      from_port        = 22
-      ipv6_cidr_blocks = []
-      prefix_list_ids  = []
-      protocol         = "tcp"
-      security_groups  = []
-      self             = false
-      to_port          = 22
-    },
-    {
-      cidr_blocks = [
-        "0.0.0.0/0",
-      ]
-      description      = ""
-      from_port        = 443
-      ipv6_cidr_blocks = []
-      prefix_list_ids  = []
-      protocol         = "tcp"
-      security_groups  = []
-      self             = false
-      to_port          = 443
-    },
-    {
-      cidr_blocks = [
-        "0.0.0.0/0",
-      ]
-      description      = ""
-      from_port        = 4000
-      ipv6_cidr_blocks = []
-      prefix_list_ids  = []
-      protocol         = "tcp"
-      security_groups  = []
-      self             = false
-      to_port          = 4000
-    },
-  ]
-  name     = "launch-wizard-1"
-  tags     = {}
-  tags_all = {}
-  vpc_id   = data.aws_vpc.main.id
+  lifecycle {
+    ignore_changes = [tags]
+  }
+  depends_on = [aws_ssm_parameter.swarm_token]
 }
