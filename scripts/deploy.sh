@@ -51,6 +51,7 @@ STACK_NAME="kanban"
 MANAGER_IP=$(aws ec2 describe-instances \
     --filters "Name=tag:Name,Values=$INSTANCE_TAG_NAME" \
               "Name=instance-state-name,Values=running" \
+              "Name=tag:SwarmReady,Values=true" \
     --query "Reservations[0].Instances[0].PublicIpAddress" \
     --region "$AWS_REGION" --output text)
 

@@ -22,6 +22,7 @@ services:
 
   web:
     image: ${WEB_IMAGE:-ghcr.io/imeraj/kanban:latest}
+    replicas: ${WEB_REPLICAS:-1}
     deploy:
       restart_policy:
         condition: on-failure
