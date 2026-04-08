@@ -80,6 +80,9 @@ jobs:
 
   build-push:
     runs-on: ubuntu-22.04
+    permissions:
+      packages: write
+      contents: read
     needs: ci
     name: Build Docker image & push to ghcr.io
     outputs:
