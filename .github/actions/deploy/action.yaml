@@ -6,7 +6,6 @@ inputs:
   image_tag:
     description: "Image tag to update the web service in the swarm"
     required: true
-
   github_user:
     description: "Owner of the package used by the registry login step"
     required: true
