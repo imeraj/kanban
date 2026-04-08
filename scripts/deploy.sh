@@ -46,6 +46,7 @@ IMAGE=${1:-"ghcr.io/imeraj/kanban:latest"}
 AWS_REGION="ca-central-1"
 INSTANCE_TAG_NAME="docker-swarm-manager"
 STACK_NAME="kanban"
+COMPOSE_FILE_PATH=${COMPOSE_FILE_PATH:-"compose.yaml"}
 
 # get EC2 IP address
 MANAGER_IP=$(aws ec2 describe-instances \
@@ -81,6 +82,6 @@ echo "$GITHUB_TOKEN" | docker login ghcr.io \
 # deploy the application
 DOCKER_HOST="ssh://ec2-user@$MANAGER_IP" \
 WEB_IMAGE="$IMAGE" \
-docker stack deploy -c compose.yaml --with-registry-auth "$STACK_NAME"
+docker stack deploy -c "$COMPOSE_FILE_PATH" --with-registry-auth "$STACK_NAME"
 
 echo "Deployment completed."
