@@ -10,7 +10,7 @@ defmodule Kanban.Application do
     children = [
       KanbanWeb.Telemetry,
       Kanban.Repo,
-      {DNSCluster, query: Application.get_env(:kanban, :dns_cluster_query) || :ignore},
+      {DNSCluster, query: "tasks.web"},
       {Phoenix.PubSub, name: Kanban.PubSub},
       # Start a worker by calling: Kanban.Worker.start_link(arg)
       # {Kanban.Worker, arg},
