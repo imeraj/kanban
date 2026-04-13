@@ -43,6 +43,7 @@ terraform.tfstate
 terraform.tfstate.backup
 environments/production/.terraform
 environments/production/terraform.tfstate
+environmets/production/terraform.tfstate
 .databaseurl
 .postgrespassword
 .secretkeybase
