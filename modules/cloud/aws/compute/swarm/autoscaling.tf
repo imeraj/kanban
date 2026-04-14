@@ -20,6 +20,9 @@ resource "aws_launch_template" "swarm_node" {
   iam_instance_profile {
     name = aws_iam_instance_profile.main_profile.name
   }
+  monitoring {
+    enabled = true
+  }
 }
 
 resource "aws_autoscaling_group" "main" {
@@ -27,8 +30,7 @@ resource "aws_autoscaling_group" "main" {
 
   vpc_zone_identifier = data.aws_subnets.main_subnets.ids
   max_size            = var.number_of_nodes + 4
-  min_size            = 2
-  desired_capacity    = 2
+  min_size            = var.number_of_nodes
   health_check_type   = "EC2"
 
   termination_policies = ["NewestInstance"]

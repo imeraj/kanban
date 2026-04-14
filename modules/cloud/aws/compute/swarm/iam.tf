@@ -43,6 +43,18 @@ resource "aws_iam_policy" "ssm_policy" {
           "ec2messages:*"
         ],
         Resource = "*"
+      },
+      {
+        Sid    = "KanbanInfrastructurePage",
+        Effect = "Allow",
+        Action = [
+          "cloudwatch:ListMetrics",
+          "cloudwatch:GetMetricData",
+          "cloudwatch:GetMetricStatistics",
+          "cloudwatch:DescribeAlarms",
+          "autoscaling:DescribeScalingActivities"
+        ],
+        Resource = "*"
       }
     ]
   })
