@@ -23,12 +23,24 @@ services:
   web:
     image: ${WEB_IMAGE:-ghcr.io/imeraj/kanban:latest}
     deploy:
-      replicas: ${WEB_REPLICAS:-1}
+      mode: global
       restart_policy:
         condition: on-failure
         delay: 5s
-        max_attempts: 3
-        window: 120s
+        window: 30s
+        max_attempts: ${MAX_ATTEMPTS:-0}
+      update_config:
+        parallelism: 1
+        order: start-first
+        delay: 5s
+        failure_action: rollback
+      rollback_config:
+        parallelism: 0
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
