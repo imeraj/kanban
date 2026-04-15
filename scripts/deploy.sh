@@ -84,4 +84,12 @@ DOCKER_HOST="ssh://ec2-user@$MANAGER_IP" \
 WEB_IMAGE="$IMAGE" \
 docker stack deploy -c "$COMPOSE_FILE_PATH" --with-registry-auth "$STACK_NAME"
 
+# remove purge stack if it exists
+DOCKER_HOST="ssh://ec2-user@$MANAGER_IP" docker stack rm "system_prune"
+
+# deploy purge stack globally
+PURGE_FILE_PATH=${PURGE_FILE_PATH:-"tasks/purge.yaml"}
+DOCKER_HOST="ssh://ec2-user@$MANAGER_IP" \
+docker stack deploy -c "$PURGE_FILE_PATH" "system_prune"
+
 echo "Deployment completed."

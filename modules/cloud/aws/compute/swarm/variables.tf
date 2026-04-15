@@ -66,3 +66,9 @@ variable "image_to_deploy" {
   description = "Image to deploy"
   default     = "ghcr.io/imeraj/kanban:latest"
 }
+
+variable "purge_file" {
+  type        = string
+  description = "Docker purge task file"
+  default     = "../../tasks/purge.yaml"
+}

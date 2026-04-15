@@ -127,6 +127,7 @@ resource "null_resource" "swarm_provisioner" {
       SOPS_AGE_KEY_FILE     = var.age_key_path
       COMPOSE_FILE_PATH     = var.compose_file
       WEB_REPLICAS          = var.number_of_nodes
+      PURGE_FILE_PATH       = var.purge_file
     }
     command = "../../scripts/deploy.sh ${var.image_to_deploy}"
   }

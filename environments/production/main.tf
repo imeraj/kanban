@@ -5,6 +5,7 @@ module "swarm" {
   private_key_path      = "${path.module}/private_key.pem"
   account_id            = var.account_id
   age_key_path          = "${path.module}/key.txt"
+  purge_file            = "../../tasks/purge.yaml"
   compose_file          = "../../compose.yaml"
   aws_access_key_id     = var.aws_access_key_id
   aws_secret_access_key = var.aws_secret_access_key
