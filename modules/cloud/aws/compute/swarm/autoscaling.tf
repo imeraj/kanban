@@ -46,6 +46,8 @@ resource "aws_autoscaling_group" "main" {
     version = "$Latest"
   }
   depends_on = [aws_ssm_parameter.swarm_token]
+
+  target_group_arns = [aws_lb_target_group.swarm.arn]
 }
 
 resource "aws_autoscaling_policy" "scale_up" {

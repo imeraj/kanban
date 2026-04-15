@@ -19,3 +19,8 @@ output "private_key" {
   sensitive   = true
   description = "The SSH private key to connect to the instance."
 }
+
+output "load_balancer_dns" {
+  description = "The DNS name of the load balancer"
+  value       = "open http://${aws_lb.main.dns_name}"
+}

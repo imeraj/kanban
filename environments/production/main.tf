@@ -61,3 +61,7 @@ module "repository_secrets" {
 output "swarm_ssh_commands" {
   value = module.swarm.ssh_commands
 }
+
+output "load_balancer_dns" {
+  value = module.swarm.load_balancer_dns
+}
