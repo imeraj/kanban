@@ -56,9 +56,49 @@ services:
     secrets:
       - databaseurl
       - secretkeybase
+  loki:
+    image: grafana/loki:2.9.3
+    configs:
+      - source: loki
+        target: /etc/loki/local-config.yaml
+
+  promtail:
+    image: grafana/promtail:latest
+    environment:
+      - DOCKER_API_VERSION=1.44
+    deploy:
+      mode: global
+    configs:
+      - source: promtail
+        target: /etc/promtail/config.yml
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  grafana:
+    image: grafana/grafana:9.5.15
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    ports:
+      - "3000:3000"
+    configs:
+      - source: grafana_datasources
+        target: /etc/grafana/provisioning/datasources/datasource.yml
+    volumes:
+      - grafana-storage:/var/lib/grafana
 
 volumes:
+  grafana-storage:
   db_data:
+
+configs:
+  loki:
+    file: ./instrumentation/loki/local.yaml
+  promtail:
+    file: ./instrumentation/promtail/${PROMTAIL_CONFIG-swarm}.yaml
+  grafana_datasources:
+    file: ./instrumentation/grafana/datasources/datasources.yaml
 
 secrets:
   postgrespassword:
