@@ -80,19 +80,46 @@ services:
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_BASIC_ENABLED=false
     ports:
       - "3000:3000"
     configs:
       - source: grafana_datasources
-        target: /etc/grafana/provisioning/datasources/datasource.yml
+        target: /etc/grafana/provisioning/datasources/datasource.yaml
     volumes:
       - grafana-storage:/var/lib/grafana
+
+  alloy:
+    image: grafana/alloy:v1.1.1
+    configs:
+      - source: alloy
+        target: /etc/alloy/config.alloy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  prometheus:
+    image: prom/prometheus:v2.45.2
+    ports:
+      - "9090:9090"
+    configs:
+      - source: prometheus
+        target: /etc/prometheus/prometheus.yml
+    command:
+      - --web.enable-remote-write-receiver
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - prometheus-data:/prometheus
 
 volumes:
   grafana-storage:
   db_data:
+  prometheus-data:
 
 configs:
+  prometheus:
+    file: ./instrumentation/prometheus/local.yaml
+  alloy:
+    file: ./instrumentation/alloy/${ALLOY_CONFIG-swarm}.alloy
   loki:
     file: ./instrumentation/loki/local.yaml
   promtail:

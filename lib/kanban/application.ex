@@ -8,14 +8,15 @@ defmodule Kanban.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      Kanban.PromEx,
+      KanbanWeb.Endpoint,
       KanbanWeb.Telemetry,
       Kanban.Repo,
       {DNSCluster, query: "tasks.web"},
-      {Phoenix.PubSub, name: Kanban.PubSub},
+      {Phoenix.PubSub, name: Kanban.PubSub}
       # Start a worker by calling: Kanban.Worker.start_link(arg)
       # {Kanban.Worker, arg},
       # Start to serve requests, typically the last entry
-      KanbanWeb.Endpoint
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

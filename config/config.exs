@@ -29,6 +29,12 @@ config :kanban, KanbanWeb.Endpoint,
   pubsub_server: Kanban.PubSub,
   live_view: [signing_salt: "via1YktG"]
 
+config :kanban, Kanban.PromEx,
+  grafana: [
+    host: "http://grafana:3000",
+    upload_dashboards_on_start: true
+  ]
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
