@@ -14,6 +14,13 @@
 # General application configuration
 import Config
 
+config :ex_aws,
+  access_key_id: [{:system, "AWS_ACCESS_KEY_ID"}, :instance_role],
+  secret_access_key: [{:system, "AWS_SECRET_ACCESS_KEY"}, :instance_role],
+  region: "ca-central-1",
+  jason_codec: Jason,
+  debug_requests: true
+
 config :kanban,
   ecto_repos: [Kanban.Repo],
   generators: [timestamp_type: :utc_datetime]
@@ -32,8 +39,10 @@ config :kanban, KanbanWeb.Endpoint,
 config :kanban, Kanban.PromEx,
   grafana: [
     host: "http://grafana:3000",
-    upload_dashboards_on_start: true
+    upload_dashboards_on_start: false
   ]
+
+config :kanban, Kanban.AwsRepo, adapter: Kanban.AwsRepo.FixtureAdapter
 
 # Configures the mailer
 #
