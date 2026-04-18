@@ -39,7 +39,7 @@ config :kanban, KanbanWeb.Endpoint,
 config :kanban, Kanban.PromEx,
   grafana: [
     host: "http://grafana:3000",
-    upload_dashboards_on_start: false
+    upload_dashboards_on_start: true
   ]
 
 config :kanban, Kanban.AwsRepo, adapter: Kanban.AwsRepo.FixtureAdapter
