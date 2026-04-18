@@ -72,7 +72,10 @@ defmodule Kanban.MixProject do
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:prom_ex, "~> 1.11"}
+      {:prom_ex, "~> 1.11"},
+      {:ex_aws, "~> 2.1"},
+      {:timex, "~> 3.0"},
+      {:sweet_xml, "~> 0.6"}
     ]
   end
 

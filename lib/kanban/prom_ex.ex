@@ -65,9 +65,10 @@ defmodule Kanban.PromEx do
       {Plugins.Phoenix, router: KanbanWeb.Router, endpoint: KanbanWeb.Endpoint},
       Plugins.Ecto,
       # Plugins.Oban,
-      Plugins.PhoenixLiveView
+      Plugins.PhoenixLiveView,
       # Plugins.Absinthe,
       # Plugins.Broadway,
+      Kanban.PromEx.CpuPlugin
 
       # Add your own PromEx metrics plugins
       # Kanban.Users.PromExPlugin
@@ -92,6 +93,7 @@ defmodule Kanban.PromEx do
       {:prom_ex, "ecto.json"},
       # {:prom_ex, "oban.json"},
       {:prom_ex, "phoenix_live_view.json"}
+
       # {:prom_ex, "absinthe.json"},
       # {:prom_ex, "broadway.json"},
 

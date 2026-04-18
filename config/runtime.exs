@@ -20,6 +20,11 @@ if System.get_env("PHX_SERVER") do
   config :kanban, KanbanWeb.Endpoint, server: true
 end
 
+if System.get_env("USE_AWS_FIXTURE_ADAPTER", "false") == "true" do
+  config :kanban, Kanban.AwsRepo, adapter: Kanban.AwsRepo.FixtureAdapter
+  config :kanban, Kanban.AwsRepo.AwsAdapter, base_url: "http://localhost:1338"
+end
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
